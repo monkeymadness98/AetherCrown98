@@ -44,7 +44,7 @@ jobs:
     - name: Test results notification
       if: always()
       run: |
-        if [ ${{ job.status }} == 'success' ]; then
+        if [ "${{ job.status }}" == "success" ]; then
           echo "✅ All tests passed successfully!"
         else
           echo "❌ Tests failed! Deployment blocked."
