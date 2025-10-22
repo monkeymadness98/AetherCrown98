@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 
 interface Payment {
@@ -22,7 +22,22 @@ export default function PaymentsPage() {
   const [currentOrderId, setCurrentOrderId] = useState<string>("");
   const [amount, setAmount] = useState("99.99");
 
+  const fetchPayments = useCallback(async () => {
+    try {
+      const response = await fetch('/api/payment');
+      const data = await response.json();
+      
+      if (data.success) {
+        setPayments(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching payments:', error);
+    }
+  }, []);
+
   useEffect(() => {
+    // Initial fetch of payments data
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPayments();
 
     // Subscribe to real-time updates
@@ -40,20 +55,7 @@ export default function PaymentsPage() {
     return () => {
       paymentsSubscription.unsubscribe();
     };
-  }, []);
-
-  const fetchPayments = async () => {
-    try {
-      const response = await fetch('/api/payment');
-      const data = await response.json();
-      
-      if (data.success) {
-        setPayments(data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching payments:', error);
-    }
-  };
+  }, [fetchPayments]);
 
   const handleCreateOrder = async () => {
     setOrderStatus("processing");

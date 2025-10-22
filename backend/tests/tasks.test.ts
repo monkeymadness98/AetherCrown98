@@ -5,6 +5,7 @@
 
 describe('AI Tasks API', () => {
   const baseUrl = process.env.API_BASE_URL || 'http://localhost:3000';
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const apiUrl = `${baseUrl}/api/tasks`;
 
   describe('POST /api/tasks - Create Task', () => {

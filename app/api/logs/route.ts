@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('level', level);
     }
 
-    const { data, error, count } = await query;
+    const { data, error } = await query;
 
     if (error) {
       return NextResponse.json({

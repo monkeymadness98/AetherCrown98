@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Home() {
-  const [products, setProducts] = useState([
+  const [products] = useState([
     {
       id: 1,
       name: "AI Business Suite",
