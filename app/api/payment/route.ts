@@ -9,6 +9,7 @@ const PAYPAL_API = process.env.NODE_ENV === 'production'
   : 'https://api-m.sandbox.paypal.com';
 
 // Helper function to get PayPal access token
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getPayPalAccessToken() {
   const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString('base64');
   

@@ -7,8 +7,8 @@ interface Task {
   id: string;
   clone_id: string;
   task_name: string;
-  task_input: any;
-  task_output: any;
+  task_input: Record<string, unknown>;
+  task_output: Record<string, unknown> | null;
   status: string;
   priority: string;
   created_at: string;
@@ -55,6 +55,7 @@ export default function TasksPage() {
     return () => {
       tasksSubscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClone]);
 
   const fetchTasks = async () => {

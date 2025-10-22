@@ -26,7 +26,7 @@ interface Log {
   log_type: string;
   entity_id: string;
   action: string;
-  details: any;
+  details: Record<string, unknown>;
   level: string;
   created_at: string;
 }
@@ -39,27 +39,6 @@ export default function MonitoringPage() {
     type: "",
     level: ""
   });
-
-  useEffect(() => {
-    fetchHealth();
-    fetchLogs();
-
-    // Refresh health status every 30 seconds
-    const interval = setInterval(fetchHealth, 30000);
-    return () => clearInterval(interval);
-  }, [logFilter]);
-
-  const fetchHealth = async () => {
-    try {
-      const response = await fetch('/api/health');
-      const data = await response.json();
-      setHealth(data);
-    } catch (error) {
-      console.error('Error fetching health status:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const fetchLogs = async () => {
     try {
@@ -76,6 +55,28 @@ export default function MonitoringPage() {
       }
     } catch (error) {
       console.error('Error fetching logs:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHealth();
+    fetchLogs();
+
+    // Refresh health status every 30 seconds
+    const interval = setInterval(fetchHealth, 30000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logFilter]);
+
+  const fetchHealth = async () => {
+    try {
+      const response = await fetch('/api/health');
+      const data = await response.json();
+      setHealth(data);
+    } catch (error) {
+      console.error('Error fetching health status:', error);
+    } finally {
+      setLoading(false);
     }
   };
 

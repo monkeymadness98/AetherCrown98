@@ -61,7 +61,7 @@ netlify deploy --prod
 ### Create Dockerfile
 
 ```dockerfile
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -143,7 +143,7 @@ docker run -p 3000:3000 aethercrown98
 ## Self-Hosted (VPS/Server)
 
 ### Prerequisites
-- Node.js 18+ installed
+- Node.js 20+ installed
 - PM2 for process management
 
 ### Setup
@@ -192,20 +192,70 @@ server {
 
 ## Environment Variables
 
-Create a `.env.local` file for environment-specific configuration:
+### Required Environment Variables
 
+The following environment variables must be configured for the application to work:
+
+#### PayPal Configuration
 ```env
-# API Configuration (example)
-NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+PAYPAL_CLIENT_ID=your_paypal_client_id_here
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret_here
+```
+- Get your credentials from [PayPal Developer Dashboard](https://developer.paypal.com/)
+- Use sandbox credentials for testing
+- Use production credentials for live deployment
 
-# Analytics (example)
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+#### Supabase Configuration
+```env
+SUPABASE_URL=https://your_project.supabase.co
+SUPABASE_KEY=your_supabase_anon_key_here
+```
+- Create a project at [Supabase](https://supabase.com/)
+- Find these values in Project Settings → API
+- Use the `anon` key for client-side access
 
-# Feature Flags
-NEXT_PUBLIC_ENABLE_AI_FEATURES=true
+#### Render Configuration (Optional - for backend deployment)
+```env
+RENDER_API_KEY=your_render_api_key_here
+```
+- Get your API key from [Render Dashboard](https://dashboard.render.com/account/api-keys)
+- Only needed for automated deployments via CI/CD
+
+#### Vercel Configuration (Optional - for frontend deployment)
+```env
+VERCEL_TOKEN=your_vercel_token_here
+VERCEL_TEAM_ID=your_vercel_team_id_here
+VERCEL_PROJECT_ID=your_vercel_project_id_here
+```
+- Get your token from [Vercel Account Settings](https://vercel.com/account/tokens)
+- Find Team ID and Project ID in your Vercel project settings
+- Only needed for automated deployments via CI/CD
+
+#### General Configuration
+```env
+NODE_ENV=production
+PORT=3000
 ```
 
-**Note**: Never commit `.env.local` to version control. It's already in `.gitignore`.
+### Setting Up Environment Variables
+
+1. **Copy the example file:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Fill in your actual values:**
+   Edit `.env` and replace placeholder values with your real credentials.
+
+3. **For production deployment:**
+   - **Vercel**: Add environment variables in Project Settings → Environment Variables
+   - **Render**: Add environment variables in Service Settings → Environment
+   - **Other platforms**: Refer to their documentation for environment variable configuration
+
+**Security Note**: 
+- Never commit `.env` to version control (it's gitignored)
+- Use `.env.example` as a template
+- Store production secrets securely in your deployment platform's environment variable settings
 
 ## Performance Optimization
 
@@ -259,7 +309,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
       - run: npm install
       - run: npm run build
       - run: npm test
@@ -269,7 +319,7 @@ jobs:
 ## Troubleshooting
 
 ### Build Fails
-- Check Node.js version (requires 18+)
+- Check Node.js version (requires 20+)
 - Clear cache: `rm -rf .next node_modules && npm install`
 - Verify all dependencies are installed
 

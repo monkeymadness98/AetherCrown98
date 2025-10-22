@@ -5,6 +5,7 @@
 
 describe('Payment API - PayPal Sandbox', () => {
   const baseUrl = process.env.API_BASE_URL || 'http://localhost:3000';
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const apiUrl = `${baseUrl}/api/payment`;
 
   describe('POST /api/payment - Create PayPal Order', () => {

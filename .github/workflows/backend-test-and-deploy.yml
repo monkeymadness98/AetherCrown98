@@ -18,7 +18,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         cache: 'npm'
 
     - name: Install dependencies
@@ -44,7 +44,7 @@ jobs:
     - name: Test results notification
       if: always()
       run: |
-        if [ ${{ job.status }} == 'success' ]; then
+        if [ "${{ job.status }}" == 'success' ]; then
           echo "✅ All tests passed successfully!"
         else
           echo "❌ Tests failed! Deployment blocked."

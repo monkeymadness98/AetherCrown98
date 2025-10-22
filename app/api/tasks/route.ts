@@ -97,7 +97,7 @@ export async function PUT(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const updateData: any = { 
+    const updateData: Record<string, string | Record<string, unknown>> = { 
       updated_at: new Date().toISOString() 
     };
     

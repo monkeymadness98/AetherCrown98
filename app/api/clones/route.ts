@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
 // GET: Fetch all AI clones
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const { data, error } = await supabase
       .from('ai_clones')
@@ -86,7 +86,7 @@ export async function PUT(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const updateData: any = { updated_at: new Date().toISOString() };
+    const updateData: Record<string, string> = { updated_at: new Date().toISOString() };
     if (name) updateData.name = name;
     if (description) updateData.description = description;
     if (model_type) updateData.model_type = model_type;

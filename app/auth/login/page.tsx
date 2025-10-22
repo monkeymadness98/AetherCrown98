@@ -30,7 +30,7 @@ export default function LoginPage() {
       } else {
         setError('Please enter both email and password');
       }
-    } catch (err) {
+    } catch {
       setError('Login failed. Please try again.');
     } finally {
       setLoading(false);
@@ -108,7 +108,7 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-8 text-center text-sm text-gray-400">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/auth/signup" className="text-accent hover:text-accent-light font-semibold">
               Sign up for free
             </Link>
