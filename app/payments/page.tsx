@@ -1,25 +1,126 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+
+interface Payment {
+  id: string;
+  order_id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  description: string;
+  payment_method: string;
+  created_at: string;
+  completed_at?: string;
+}
 
 export default function PaymentsPage() {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [orderStatus, setOrderStatus] = useState<"idle" | "processing" | "success" | "error">("idle");
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [currentOrderId, setCurrentOrderId] = useState<string>("");
+  const [amount, setAmount] = useState("99.99");
 
-  const handleCreateOrder = () => {
-    setOrderStatus("processing");
-    setTimeout(() => {
-      setOrderStatus("success");
-      setTimeout(() => setOrderStatus("idle"), 3000);
-    }, 2000);
+  useEffect(() => {
+    fetchPayments();
+
+    // Subscribe to real-time updates
+    const paymentsSubscription = supabase
+      .channel('payments-channel')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'payments' },
+        (payload) => {
+          console.log('Payment updated:', payload);
+          fetchPayments();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      paymentsSubscription.unsubscribe();
+    };
+  }, []);
+
+  const fetchPayments = async () => {
+    try {
+      const response = await fetch('/api/payment');
+      const data = await response.json();
+      
+      if (data.success) {
+        setPayments(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching payments:', error);
+    }
   };
 
-  const handleCapturePayment = () => {
+  const handleCreateOrder = async () => {
     setOrderStatus("processing");
-    setTimeout(() => {
-      setOrderStatus("success");
+    try {
+      const response = await fetch('/api/payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: parseFloat(amount),
+          currency: 'USD',
+          description: 'AetherCrown98 Payment'
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setCurrentOrderId(data.order_id);
+        setOrderStatus("success");
+        fetchPayments();
+        setTimeout(() => setOrderStatus("idle"), 3000);
+      } else {
+        setOrderStatus("error");
+        setTimeout(() => setOrderStatus("idle"), 3000);
+      }
+    } catch (error) {
+      console.error('Error creating order:', error);
+      setOrderStatus("error");
       setTimeout(() => setOrderStatus("idle"), 3000);
-    }, 1500);
+    }
+  };
+
+  const handleCapturePayment = async () => {
+    if (!currentOrderId) {
+      alert('Please create an order first');
+      return;
+    }
+    
+    setOrderStatus("processing");
+    try {
+      const response = await fetch('/api/payment', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id: currentOrderId,
+          status: 'completed'
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setOrderStatus("success");
+        fetchPayments();
+        setTimeout(() => {
+          setOrderStatus("idle");
+          setCurrentOrderId("");
+        }, 3000);
+      } else {
+        setOrderStatus("error");
+        setTimeout(() => setOrderStatus("idle"), 3000);
+      }
+    } catch (error) {
+      console.error('Error capturing payment:', error);
+      setOrderStatus("error");
+      setTimeout(() => setOrderStatus("idle"), 3000);
+    }
   };
 
   return (
@@ -123,6 +224,8 @@ export default function PaymentsPage() {
                   <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-accent font-bold">$</span>
                   <input
                     type="text"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
                     className="input-futuristic w-full pl-8"
                   />
@@ -236,25 +339,28 @@ export default function PaymentsPage() {
             <div className="card">
               <h3 className="text-xl font-semibold mb-4 text-accent">Recent Payments</h3>
               <div className="space-y-3">
-                {[
-                  { id: 1, amount: "$1,250.00", date: "Oct 22, 2025", status: "Completed" },
-                  { id: 2, amount: "$890.00", date: "Oct 21, 2025", status: "Completed" },
-                  { id: 3, amount: "$2,100.00", date: "Oct 20, 2025", status: "Pending" },
-                ].map((payment) => (
-                  <div key={payment.id} className="flex justify-between items-center p-3 bg-background-dark/50 rounded-lg">
-                    <div>
-                      <p className="font-semibold text-white">{payment.amount}</p>
-                      <p className="text-xs text-gray-400">{payment.date}</p>
+                {payments.length === 0 ? (
+                  <p className="text-center text-gray-400 py-4">No payment history yet</p>
+                ) : (
+                  payments.slice(0, 5).map((payment) => (
+                    <div key={payment.id} className="flex justify-between items-center p-3 bg-background-dark/50 rounded-lg">
+                      <div>
+                        <p className="font-semibold text-white">${payment.amount.toFixed(2)}</p>
+                        <p className="text-xs text-gray-400">{new Date(payment.created_at).toLocaleDateString()}</p>
+                        <p className="text-xs text-gray-500">{payment.order_id}</p>
+                      </div>
+                      <span className={`text-xs px-3 py-1 rounded-full ${
+                        payment.status === "completed"
+                          ? "bg-primary/20 text-primary"
+                          : payment.status === "created"
+                          ? "bg-accent/20 text-accent"
+                          : "bg-gray-400/20 text-gray-400"
+                      }`}>
+                        {payment.status}
+                      </span>
                     </div>
-                    <span className={`text-xs px-3 py-1 rounded-full ${
-                      payment.status === "Completed"
-                        ? "bg-primary/20 text-primary"
-                        : "bg-accent/20 text-accent"
-                    }`}>
-                      {payment.status}
-                    </span>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>

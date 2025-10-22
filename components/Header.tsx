@@ -26,11 +26,20 @@ export default function Header() {
             <Link href="/dashboard" className="text-gray-300 hover:text-accent transition-colors duration-300">
               Dashboard
             </Link>
+            <Link href="/clones" className="text-gray-300 hover:text-accent transition-colors duration-300">
+              Clones
+            </Link>
+            <Link href="/tasks" className="text-gray-300 hover:text-accent transition-colors duration-300">
+              Tasks
+            </Link>
             <Link href="/payments" className="text-gray-300 hover:text-accent transition-colors duration-300">
               Payments
             </Link>
             <Link href="/analytics" className="text-gray-300 hover:text-accent transition-colors duration-300">
               Analytics
+            </Link>
+            <Link href="/monitoring" className="text-gray-300 hover:text-accent transition-colors duration-300">
+              Monitoring
             </Link>
           </div>
 
@@ -90,6 +99,20 @@ export default function Header() {
                 Dashboard
               </Link>
               <Link
+                href="/clones"
+                className="text-gray-300 hover:text-accent transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Clones
+              </Link>
+              <Link
+                href="/tasks"
+                className="text-gray-300 hover:text-accent transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Tasks
+              </Link>
+              <Link
                 href="/payments"
                 className="text-gray-300 hover:text-accent transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
@@ -102,6 +125,13 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Analytics
+              </Link>
+              <Link
+                href="/monitoring"
+                className="text-gray-300 hover:text-accent transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Monitoring
               </Link>
               <button className="btn-accent w-full">
                 Get Started
