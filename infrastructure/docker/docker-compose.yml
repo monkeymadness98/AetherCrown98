@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    volumes:
+      - ./backend/logs:/app/logs
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:3000/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  # Optional: Blockchain node
+  blockchain:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    command: ["--networkId", "5777", "--accounts", "10", "--deterministic"]
+    restart: unless-stopped
+    profiles:
+      - blockchain
+
+volumes:
+  redis-data:
