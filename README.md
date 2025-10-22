@@ -66,11 +66,39 @@ cd AetherCrown98
 # Install dependencies
 npm install
 
+# Set up environment variables
+cp .env.example .env
+# Edit .env and add your credentials (see Environment Setup below)
+
 # Run development server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+### 🔧 Environment Setup
+
+Before running the application, you need to configure environment variables:
+
+1. **Copy the example file:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Configure required services:**
+   - **Supabase**: Sign up at [supabase.com](https://supabase.com) and get your project URL and API key
+   - **PayPal**: Create a developer account at [developer.paypal.com](https://developer.paypal.com) for payment integration
+   - **Vercel/Render** (optional): Only needed for CI/CD deployments
+
+3. **Update `.env` with your credentials:**
+   ```env
+   SUPABASE_URL=https://your_project.supabase.co
+   SUPABASE_KEY=your_supabase_anon_key
+   PAYPAL_CLIENT_ID=your_paypal_client_id
+   PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+   ```
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed environment variable documentation.
 
 ## 🚀 Build & Deploy
 
