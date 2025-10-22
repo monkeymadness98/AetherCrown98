@@ -95,7 +95,7 @@ export default function DashboardPage() {
           <div className="card">
             <h3 className="text-xl font-semibold mb-6 text-accent">Revenue Overview</h3>
             <div className="space-y-4">
-              {revenueData.map(({ month, percentage, amount }) => {
+              {revenueData.map(({ month, percentage, amount }, index) => {
                 return (
                   <div key={month}>
                     <div className="flex justify-between mb-2">
