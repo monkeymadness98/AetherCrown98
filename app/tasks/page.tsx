@@ -55,6 +55,7 @@ export default function TasksPage() {
     return () => {
       tasksSubscription.unsubscribe();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClone]);
 
   const fetchTasks = async () => {

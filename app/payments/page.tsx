@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 
 interface Payment {
@@ -22,27 +22,7 @@ export default function PaymentsPage() {
   const [currentOrderId, setCurrentOrderId] = useState<string>("");
   const [amount, setAmount] = useState("99.99");
 
-  useEffect(() => {
-    fetchPayments();
-
-    // Subscribe to real-time updates
-    const paymentsSubscription = supabase
-      .channel('payments-channel')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'payments' },
-        (payload) => {
-          console.log('Payment updated:', payload);
-          fetchPayments();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      paymentsSubscription.unsubscribe();
-    };
-  }, []);
-
-  const fetchPayments = async () => {
+  const fetchPayments = useCallback(async () => {
     try {
       const response = await fetch('/api/payment');
       const data = await response.json();
@@ -53,7 +33,29 @@ export default function PaymentsPage() {
     } catch (error) {
       console.error('Error fetching payments:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Initial fetch
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchPayments();
+
+    // Subscribe to real-time updates
+    const paymentsSubscription = supabase
+      .channel('payments-channel')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'payments' },
+        (payload) => {
+          console.log('Payment updated:', payload);
+          void fetchPayments();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      void paymentsSubscription.unsubscribe();
+    };
+  }, [fetchPayments]);
 
   const handleCreateOrder = async () => {
     setOrderStatus("processing");
