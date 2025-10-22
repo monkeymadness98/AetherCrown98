@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 
 interface Task {
@@ -35,29 +35,7 @@ export default function TasksPage() {
     priority: "medium"
   });
 
-  // Fetch tasks and clones
-  useEffect(() => {
-    fetchTasks();
-    fetchClones();
-
-    // Subscribe to real-time updates
-    const tasksSubscription = supabase
-      .channel('tasks-channel')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'ai_tasks' },
-        (payload) => {
-          console.log('Task updated:', payload);
-          fetchTasks();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      tasksSubscription.unsubscribe();
-    };
-  }, [selectedClone]);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const url = selectedClone 
         ? `/api/tasks?clone_id=${selectedClone}`
@@ -74,9 +52,9 @@ export default function TasksPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedClone]);
 
-  const fetchClones = async () => {
+  const fetchClones = useCallback(async () => {
     try {
       const response = await fetch('/api/clones');
       const data = await response.json();
@@ -87,7 +65,29 @@ export default function TasksPage() {
     } catch (error) {
       console.error('Error fetching clones:', error);
     }
-  };
+  }, []);
+
+  // Fetch tasks and clones
+  useEffect(() => {
+    void fetchTasks();
+    void fetchClones();
+
+    // Subscribe to real-time updates
+    const tasksSubscription = supabase
+      .channel('tasks-channel')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'ai_tasks' },
+        (payload) => {
+          console.log('Task updated:', payload);
+          void fetchTasks();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      void tasksSubscription.unsubscribe();
+    };
+  }, [fetchTasks, fetchClones]);
 
   const createTask = async () => {
     try {

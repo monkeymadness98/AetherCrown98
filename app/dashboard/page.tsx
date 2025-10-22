@@ -22,7 +22,7 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4">
         <div className="mb-8">
           <h1 className="text-4xl font-bold gradient-text mb-2">Dashboard</h1>
-          <p className="text-gray-400">Welcome back! Here's your business overview.</p>
+          <p className="text-gray-400">Welcome back! Here&apos;s your business overview.</p>
         </div>
 
         {/* Stats Grid */}
@@ -87,7 +87,7 @@ export default function DashboardPage() {
             <h3 className="text-xl font-semibold mb-6 text-accent">Revenue Overview</h3>
             <div className="space-y-4">
               {["Jan", "Feb", "Mar", "Apr", "May", "Jun"].map((month, index) => {
-                const percentage = 20 + (index * 15) + (Math.random() * 10);
+                const percentage = 20 + (index * 15) + ((index * 7) % 10);
                 return (
                   <div key={month}>
                     <div className="flex justify-between mb-2">
