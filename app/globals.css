@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+body {
+  background: linear-gradient(to bottom right, #0A0A0A, #121212, #0A0A0A);
+  color: white;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.btn-primary {
+  background-color: #00A86B;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #008854;
+  box-shadow: 0 0 20px rgba(0, 168, 107, 0.5);
+  transform: scale(1.05);
+}
+
+.btn-accent {
+  background-color: #FFD700;
+  color: black;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-accent:hover {
+  background-color: #E6C200;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  transform: scale(1.05);
+}
+
+.card {
+  background-color: #1A1A1A;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 168, 107, 0.2);
+  transition: all 0.3s;
+}
+
+.card:hover {
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.card-glow {
+  background-color: #1A1A1A;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 168, 107, 0.2);
+  transition: all 0.3s;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 20px rgba(0, 168, 107, 0.5);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.input-futuristic {
+  background-color: #1A1A1A;
+  border: 2px solid rgba(0, 168, 107, 0.3);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  transition: all 0.3s;
+}
+
+.input-futuristic::placeholder {
+  color: #6b7280;
+}
+
+.input-futuristic:focus {
+  outline: none;
+  border-color: #FFD700;
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #00A86B, #FFD700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow-border {
+  border: 2px solid #FFD700;
+  box-shadow: 0 0 5px #FFD700, 0 0 20px #FFD700;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  }
+}
+
+
