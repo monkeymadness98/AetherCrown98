@@ -47,6 +47,7 @@ export default function MonitoringPage() {
     // Refresh health status every 30 seconds
     const interval = setInterval(fetchHealth, 30000);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logFilter]);
 
   const fetchHealth = async () => {

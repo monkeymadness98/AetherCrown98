@@ -61,7 +61,7 @@ netlify deploy --prod
 ### Create Dockerfile
 
 ```dockerfile
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -143,7 +143,7 @@ docker run -p 3000:3000 aethercrown98
 ## Self-Hosted (VPS/Server)
 
 ### Prerequisites
-- Node.js 18+ installed
+- Node.js 20+ installed
 - PM2 for process management
 
 ### Setup
@@ -195,17 +195,57 @@ server {
 Create a `.env.local` file for environment-specific configuration:
 
 ```env
-# API Configuration (example)
-NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+# Supabase Configuration (Required)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-supabase-anon-key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_KEY=your-supabase-anon-key
 
-# Analytics (example)
+# PayPal Configuration (Required for payments)
+PAYPAL_CLIENT_ID=your-paypal-client-id
+PAYPAL_CLIENT_SECRET=your-paypal-client-secret
+
+# Vercel Deployment (Required for Vercel CI/CD)
+VERCEL_TOKEN=your-vercel-token
+VERCEL_PROJECT_ID=your-vercel-project-id
+VERCEL_TEAM_ID=your-vercel-team-id
+
+# Render Deployment (Required for Render CI/CD)
+RENDER_API_KEY=your-render-api-key
+RENDER_DEPLOY_HOOK_URL=https://api.render.com/deploy/your-service-id
+
+# Analytics (Optional)
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 
-# Feature Flags
+# Feature Flags (Optional)
 NEXT_PUBLIC_ENABLE_AI_FEATURES=true
 ```
 
 **Note**: Never commit `.env.local` to version control. It's already in `.gitignore`.
+
+### GitHub Secrets Configuration
+
+For CI/CD workflows to function properly, configure the following secrets in your GitHub repository:
+
+**Settings > Secrets and variables > Actions > New repository secret**
+
+**Required Secrets:**
+- `SUPABASE_URL`: Your Supabase project URL
+- `SUPABASE_KEY`: Your Supabase anonymous key
+- `PAYPAL_CLIENT_ID`: PayPal REST API client ID
+- `PAYPAL_CLIENT_SECRET`: PayPal REST API client secret
+
+**For Vercel Deployment:**
+- `VERCEL_TOKEN`: Vercel deployment token (get from Vercel account settings)
+- `VERCEL_PROJECT_ID`: Your Vercel project ID (found in project settings)
+- `VERCEL_TEAM_ID`: Your Vercel team ID (found in team settings)
+
+**For Render Deployment:**
+- `RENDER_API_KEY`: Render API key (get from Render account settings)
+- `RENDER_DEPLOY_HOOK_URL`: Render deploy hook URL (found in service settings)
+
+**Optional Secrets:**
+- `SLACK_WEBHOOK`: For Slack notifications (if configured)
 
 ## Performance Optimization
 
@@ -269,7 +309,7 @@ jobs:
 ## Troubleshooting
 
 ### Build Fails
-- Check Node.js version (requires 18+)
+- Check Node.js version (requires 20+)
 - Clear cache: `rm -rf .next node_modules && npm install`
 - Verify all dependencies are installed
 
