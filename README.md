@@ -50,11 +50,24 @@ A futuristic, high-end Next.js web application featuring a stunning **green and 
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js 16 (App Router)
+### Frontend
+- **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4 (with custom green/gold theme)
 - **UI**: Custom components with futuristic design
 - **Fonts**: Inter, Montserrat (from Google Fonts)
+
+### Backend
+- **Framework**: Express.js
+- **Language**: JavaScript (Node.js)
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Environment**: dotenv for configuration
+
+### Integrations
+- **Database**: Supabase
+- **Payments**: PayPal (configured via environment variables)
+- **Deployment**: Render, Vercel
 
 ## 📦 Installation
 
@@ -63,47 +76,115 @@ A futuristic, high-end Next.js web application featuring a stunning **green and 
 git clone https://github.com/monkeymadness98/AetherCrown98.git
 cd AetherCrown98
 
-# Install dependencies
+# Copy environment variables
+cp .env.example .env
+# Edit .env with your actual credentials
+
+# Install backend dependencies
+cd backend
 npm install
 
-# Run development server
-npm run dev
+# Install frontend dependencies
+cd ../frontend
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+## 🚀 Running the Application
 
-## 🚀 Build & Deploy
+### Backend Server
 
 ```bash
+cd backend
+
+# Development mode with auto-reload
+npm run dev
+
+# Production mode
+npm start
+```
+
+Backend runs on [http://localhost:3001](http://localhost:3001) by default.
+
+### Frontend Application
+
+```bash
+cd frontend
+
+# Development server
+npm run dev
+
 # Build for production
 npm run build
 
 # Start production server
 npm start
-
-# Run linter
-npm run lint
 ```
+
+Frontend runs on [http://localhost:3000](http://localhost:3000).
 
 ## 🎯 Project Structure
 
 ```
 AetherCrown98/
-├── app/                      # Next.js app directory
-│   ├── page.tsx             # Homepage
-│   ├── layout.tsx           # Root layout
-│   ├── globals.css          # Global styles with custom classes
-│   ├── dashboard/           # Dashboard page
-│   ├── payments/            # Payments page
-│   └── analytics/           # Analytics page
-├── components/              # Reusable components
-│   ├── Header.tsx           # Navigation header
-│   └── Footer.tsx           # Footer component
-├── public/                  # Static assets
-├── tailwind.config.ts       # Tailwind configuration
-├── next.config.mjs          # Next.js configuration
-└── package.json             # Dependencies
+├── backend/                  # Express backend server
+│   ├── main.js              # Server entry point
+│   ├── package.json         # Backend dependencies
+│   └── node_modules/        # Backend packages
+├── frontend/                 # Next.js frontend application
+│   ├── app/                 # Next.js app directory
+│   │   ├── page.tsx        # Homepage
+│   │   ├── layout.tsx      # Root layout
+│   │   ├── globals.css     # Global styles
+│   │   ├── dashboard/      # Dashboard page
+│   │   ├── payments/       # Payments page
+│   │   └── analytics/      # Analytics page
+│   ├── components/         # Reusable components
+│   │   ├── Header.tsx      # Navigation header
+│   │   └── Footer.tsx      # Footer component
+│   ├── tailwind.config.ts  # Tailwind configuration
+│   ├── next.config.mjs     # Next.js configuration
+│   ├── package.json        # Frontend dependencies
+│   └── node_modules/       # Frontend packages
+├── .env                     # Environment variables (not in git)
+├── .env.example             # Environment template
+└── README.md                # This file
 ```
+
+## 🔌 Backend API Endpoints
+
+The backend server provides the following endpoints:
+
+- **GET /health** - Health check endpoint
+  - Returns: `{ status: 'ok', message: 'AetherCrown98 Backend is running', timestamp: '...' }`
+
+- **GET /api** - API information
+  - Returns: API version and available endpoints
+
+- **GET /api/data** - Example Supabase data endpoint
+  - Demonstrates Supabase integration
+  - Returns data from configured Supabase table
+
+All endpoints support CORS and are accessible from the frontend.
+
+## 🔐 Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```bash
+# Supabase Configuration
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_KEY=your_supabase_anon_key
+
+# PayPal Configuration
+PAYPAL_CLIENT_ID=your_paypal_client_id
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+
+# Server Configuration
+NODE_ENV=production
+PORT=3000
+```
+
+See `.env.example` for a template.
 
 ## 🎨 Color Palette
 
