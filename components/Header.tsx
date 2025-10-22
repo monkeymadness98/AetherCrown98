@@ -38,6 +38,9 @@ export default function Header() {
             <Link href="/analytics" className="text-gray-300 hover:text-accent transition-colors duration-300">
               Analytics
             </Link>
+            <Link href="/monitoring" className="text-gray-300 hover:text-accent transition-colors duration-300">
+              Monitoring
+            </Link>
           </div>
 
           {/* CTA Button */}
@@ -122,6 +125,13 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Analytics
+              </Link>
+              <Link
+                href="/monitoring"
+                className="text-gray-300 hover:text-accent transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Monitoring
               </Link>
               <button className="btn-accent w-full">
                 Get Started
