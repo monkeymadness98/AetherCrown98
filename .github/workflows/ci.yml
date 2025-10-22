@@ -30,7 +30,7 @@ jobs:
     - name: Lint results
       if: always()
       run: |
-        if [ ${{ job.status }} == 'success' ]; then
+        if [ "${{ job.status }}" == "success" ]; then
           echo "✅ Linting passed!"
         else
           echo "❌ Linting failed!"
@@ -71,7 +71,7 @@ jobs:
     - name: Test results summary
       if: always()
       run: |
-        if [ ${{ job.status }} == 'success' ]; then
+        if [ "${{ job.status }}" == "success" ]; then
           echo "✅ All tests passed!"
         else
           echo "❌ Some tests failed!"
@@ -113,7 +113,7 @@ jobs:
     - name: Build summary
       if: always()
       run: |
-        if [ ${{ job.status }} == 'success' ]; then
+        if [ "${{ job.status }}" == "success" ]; then
           echo "✅ Build completed successfully!"
         else
           echo "❌ Build failed!"

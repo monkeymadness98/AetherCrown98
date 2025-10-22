@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface HealthStatus {
   status: string;
@@ -40,16 +40,7 @@ export default function MonitoringPage() {
     level: ""
   });
 
-  useEffect(() => {
-    fetchHealth();
-    fetchLogs();
-
-    // Refresh health status every 30 seconds
-    const interval = setInterval(fetchHealth, 30000);
-    return () => clearInterval(interval);
-  }, [logFilter]);
-
-  const fetchHealth = async () => {
+  const fetchHealth = useCallback(async () => {
     try {
       const response = await fetch('/api/health');
       const data = await response.json();
@@ -59,9 +50,9 @@ export default function MonitoringPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     try {
       const params = new URLSearchParams();
       if (logFilter.type) params.append('type', logFilter.type);
@@ -77,7 +68,16 @@ export default function MonitoringPage() {
     } catch (error) {
       console.error('Error fetching logs:', error);
     }
-  };
+  }, [logFilter]);
+
+  useEffect(() => {
+    void fetchHealth();
+    void fetchLogs();
+
+    // Refresh health status every 30 seconds
+    const interval = setInterval(() => void fetchHealth(), 30000);
+    return () => clearInterval(interval);
+  }, [fetchHealth, fetchLogs]);
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
