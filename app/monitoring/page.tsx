@@ -40,15 +40,6 @@ export default function MonitoringPage() {
     level: ""
   });
 
-  useEffect(() => {
-    fetchHealth();
-    fetchLogs();
-
-    // Refresh health status every 30 seconds
-    const interval = setInterval(fetchHealth, 30000);
-    return () => clearInterval(interval);
-  }, [logFilter]);
-
   const fetchHealth = async () => {
     try {
       const response = await fetch('/api/health');
@@ -78,6 +69,16 @@ export default function MonitoringPage() {
       console.error('Error fetching logs:', error);
     }
   };
+
+  useEffect(() => {
+    fetchHealth();
+    fetchLogs();
+
+    // Refresh health status every 30 seconds
+    const interval = setInterval(fetchHealth, 30000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logFilter]);
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {

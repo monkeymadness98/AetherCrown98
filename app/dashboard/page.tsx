@@ -17,12 +17,21 @@ export default function DashboardPage() {
     { id: 4, date: "2025-10-21", amount: "$650", status: "completed", customer: "Bob Johnson" },
   ]);
 
+  const [revenueData] = useState([
+    { month: "Jan", percentage: 25, amount: 1000 },
+    { month: "Feb", percentage: 38, amount: 1500 },
+    { month: "Mar", percentage: 52, amount: 2000 },
+    { month: "Apr", percentage: 67, amount: 2500 },
+    { month: "Jul", percentage: 81, amount: 3000 },
+    { month: "Jun", percentage: 93, amount: 3500 },
+  ]);
+
   return (
     <div className="min-h-screen py-12 animate-fade-in">
       <div className="container mx-auto px-4">
         <div className="mb-8">
           <h1 className="text-4xl font-bold gradient-text mb-2">Dashboard</h1>
-          <p className="text-gray-400">Welcome back! Here's your business overview.</p>
+          <p className="text-gray-400">Welcome back! Here&apos;s your business overview.</p>
         </div>
 
         {/* Stats Grid */}
@@ -86,23 +95,20 @@ export default function DashboardPage() {
           <div className="card">
             <h3 className="text-xl font-semibold mb-6 text-accent">Revenue Overview</h3>
             <div className="space-y-4">
-              {["Jan", "Feb", "Mar", "Apr", "May", "Jun"].map((month, index) => {
-                const percentage = 20 + (index * 15) + (Math.random() * 10);
-                return (
-                  <div key={month}>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-400">{month}</span>
-                      <span className="text-primary font-semibold">${Math.round(1000 + index * 500)}</span>
-                    </div>
-                    <div className="w-full bg-background-dark rounded-full h-2">
-                      <div
-                        className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-1000 animate-slide-in"
-                        style={{ width: `${percentage}%`, animationDelay: `${index * 100}ms` }}
-                      ></div>
-                    </div>
+              {revenueData.map((data, index) => (
+                <div key={data.month}>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-400">{data.month}</span>
+                    <span className="text-primary font-semibold">${data.amount}</span>
                   </div>
-                );
-              })}
+                  <div className="w-full bg-background-dark rounded-full h-2">
+                    <div
+                      className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-1000 animate-slide-in"
+                      style={{ width: `${data.percentage}%`, animationDelay: `${index * 100}ms` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

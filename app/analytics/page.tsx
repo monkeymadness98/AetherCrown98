@@ -260,7 +260,7 @@ export default function AnalyticsPage() {
                 Revenue Optimization
               </h4>
               <p className="text-gray-300 text-sm">
-                Customers who purchase "AI Business Suite" often buy "Analytics Pro" within 30 days. Create a bundle to increase average order value.
+                Customers who purchase &quot;AI Business Suite&quot; often buy &quot;Analytics Pro&quot; within 30 days. Create a bundle to increase average order value.
               </p>
             </div>
             <div className="bg-background-dark/50 p-6 rounded-lg border border-accent/20">
@@ -271,7 +271,7 @@ export default function AnalyticsPage() {
                 Retention Alert
               </h4>
               <p className="text-gray-300 text-sm">
-                15% of customers haven't logged in for 30+ days. Launch a re-engagement campaign with personalized offers.
+                15% of customers haven&apos;t logged in for 30+ days. Launch a re-engagement campaign with personalized offers.
               </p>
             </div>
           </div>
