@@ -1,0 +1,145 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**', 'copilot/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    name: Run Linters
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run ESLint
+      run: npm run lint
+
+    - name: Lint results
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ Linting passed!"
+        else
+          echo "❌ Linting failed!"
+          exit 1
+        fi
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run Jest tests
+      run: npm test -- --coverage
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://placeholder.supabase.co' }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY || 'placeholder-key' }}
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      if: always()
+      continue-on-error: true
+      with:
+        files: ./coverage/coverage-final.json
+        flags: unittests
+
+    - name: Test results summary
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ All tests passed!"
+        else
+          echo "❌ Some tests failed!"
+          exit 1
+        fi
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build Next.js
+      run: npm run build
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://placeholder.supabase.co' }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY || 'placeholder-key' }}
+        PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID || 'placeholder' }}
+        PAYPAL_CLIENT_SECRET: ${{ secrets.PAYPAL_CLIENT_SECRET || 'placeholder' }}
+        NODE_ENV: production
+
+    - name: Check build output
+      run: |
+        ls -la .next
+        echo "✅ Build artifacts created successfully!"
+
+    - name: Build summary
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ Build completed successfully!"
+        else
+          echo "❌ Build failed!"
+          exit 1
+        fi
+
+  status-check:
+    name: CI Status Check
+    runs-on: ubuntu-latest
+    needs: [lint, test, build]
+    if: always()
+    
+    steps:
+    - name: Check CI status
+      run: |
+        echo "=== CI Pipeline Status ==="
+        echo "Lint: ${{ needs.lint.result }}"
+        echo "Test: ${{ needs.test.result }}"
+        echo "Build: ${{ needs.build.result }}"
+        
+        if [ "${{ needs.lint.result }}" == "success" ] && [ "${{ needs.test.result }}" == "success" ] && [ "${{ needs.build.result }}" == "success" ]; then
+          echo ""
+          echo "✅ All CI checks passed! Ready for deployment."
+          exit 0
+        else
+          echo ""
+          echo "❌ CI pipeline failed. Please fix the issues before merging."
+          exit 1
+        fi
