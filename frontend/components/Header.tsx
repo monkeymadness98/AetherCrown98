@@ -26,6 +26,12 @@ export default function Header() {
             <Link href="/dashboard" className="text-gray-300 hover:text-accent transition-colors duration-300">
               Dashboard
             </Link>
+            <Link href="/clones" className="text-gray-300 hover:text-accent transition-colors duration-300">
+              Clones
+            </Link>
+            <Link href="/tasks" className="text-gray-300 hover:text-accent transition-colors duration-300">
+              Tasks
+            </Link>
             <Link href="/payments" className="text-gray-300 hover:text-accent transition-colors duration-300">
               Payments
             </Link>
@@ -35,10 +41,17 @@ export default function Header() {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden md:block">
-            <button className="btn-accent">
-              Get Started
-            </button>
+          <div className="hidden md:flex items-center space-x-4">
+            <Link href="/login">
+              <button className="text-gray-300 hover:text-accent transition-colors">
+                Sign In
+              </button>
+            </Link>
+            <Link href="/signup">
+              <button className="btn-accent">
+                Get Started
+              </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -90,6 +103,20 @@ export default function Header() {
                 Dashboard
               </Link>
               <Link
+                href="/clones"
+                className="text-gray-300 hover:text-accent transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Clones
+              </Link>
+              <Link
+                href="/tasks"
+                className="text-gray-300 hover:text-accent transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Tasks
+              </Link>
+              <Link
                 href="/payments"
                 className="text-gray-300 hover:text-accent transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
@@ -103,9 +130,16 @@ export default function Header() {
               >
                 Analytics
               </Link>
-              <button className="btn-accent w-full">
-                Get Started
-              </button>
+              <Link href="/login">
+                <button className="text-gray-300 hover:text-accent transition-colors w-full text-left">
+                  Sign In
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="btn-accent w-full">
+                  Get Started
+                </button>
+              </Link>
             </div>
           </div>
         )}
