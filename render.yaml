@@ -1,0 +1,20 @@
+services:
+  # Backend API Service
+  - type: web
+    name: aethercrown98-backend
+    runtime: docker
+    repo: https://github.com/monkeymadness98/AetherCrown98
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    region: oregon
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.11
