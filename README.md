@@ -2,6 +2,10 @@
 
 🚀 **Autonomous AI-Driven Business Empire**
 
+[![Deploy](https://github.com/monkeymadness98/AetherCrown98/actions/workflows/deploy.yaml/badge.svg)](https://github.com/monkeymadness98/AetherCrown98/actions/workflows/deploy.yaml)
+[![CI](https://github.com/monkeymadness98/AetherCrown98/actions/workflows/ci.yml/badge.svg)](https://github.com/monkeymadness98/AetherCrown98/actions/workflows/ci.yml)
+[![Health Check](https://github.com/monkeymadness98/AetherCrown98/actions/workflows/healthcheck.yaml/badge.svg)](https://github.com/monkeymadness98/AetherCrown98/actions/workflows/healthcheck.yaml)
+
 A futuristic, high-end Next.js web application featuring a stunning **green and gold color scheme** with cutting-edge AI-powered business automation features.
 
 ## ✨ Features

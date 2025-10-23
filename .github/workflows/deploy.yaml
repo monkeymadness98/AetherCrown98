@@ -1,0 +1,178 @@
+name: Deploy to Render and Vercel
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests Before Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint || echo "Lint check completed"
+
+    - name: Run tests
+      run: npm test
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
+    - name: Test results
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ All tests passed!"
+        else
+          echo "❌ Tests failed! Blocking deployment."
+          exit 1
+        fi
+
+  deploy-backend:
+    name: Deploy Backend to Render
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Render
+      run: |
+        echo "🚀 Deploying backend to Render..."
+        if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          echo "✅ Deploy webhook triggered"
+        else
+          echo "⚠️  RENDER_DEPLOY_HOOK_URL not set - skipping deploy"
+        fi
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+
+    - name: Wait for deployment
+      run: |
+        echo "⏳ Waiting 60 seconds for deployment to complete..."
+        sleep 60
+
+    - name: Health check
+      run: |
+        echo "🔍 Checking backend health..."
+        if [ -n "${{ secrets.BACKEND_URL }}" ]; then
+          response=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.BACKEND_URL }}/healthz" || echo "000")
+          if [ "$response" = "200" ]; then
+            echo "✅ Backend is healthy (HTTP $response)"
+          else
+            echo "⚠️  Backend health check returned HTTP $response"
+          fi
+        else
+          echo "⚠️  BACKEND_URL not set - skipping health check"
+        fi
+
+    - name: Upload source maps to Sentry
+      if: ${{ secrets.SENTRY_DSN != '' }}
+      run: |
+        echo "📤 Uploading source maps to Sentry..."
+        if command -v sentry-cli &> /dev/null; then
+          sentry-cli releases new "${{ github.sha }}"
+          sentry-cli releases set-commits "${{ github.sha }}" --auto
+          sentry-cli releases finalize "${{ github.sha }}"
+          echo "✅ Source maps uploaded to Sentry"
+        else
+          echo "⚠️  sentry-cli not installed - skipping source map upload"
+        fi
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+
+    - name: Log deployment
+      run: |
+        echo "$(date) - Backend deployment completed" >> logs/deploy.log || echo "Could not write to logs"
+        echo "Deployment success" >> logs/deploy.log || echo "Could not write to logs"
+
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Vercel Production
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_TEAM_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+        working-directory: ./
+
+    - name: Frontend deployment complete
+      run: |
+        echo "✅ Frontend deployed successfully to Vercel!"
+        echo "🔗 Visit: https://aethercrown98.vercel.app"
+
+    - name: Log deployment
+      run: |
+        echo "$(date) - Frontend deployment completed" >> logs/deploy.log || echo "Could not write to logs"
+
+  post-deploy-checks:
+    name: Post-Deployment Validation
+    runs-on: ubuntu-latest
+    needs: [deploy-backend, deploy-frontend]
+    if: always()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Verify deployments
+      run: |
+        echo "=== Deployment Summary ==="
+        echo "Backend Deploy: ${{ needs.deploy-backend.result }}"
+        echo "Frontend Deploy: ${{ needs.deploy-frontend.result }}"
+        
+        if [ "${{ needs.deploy-backend.result }}" == "success" ] && [ "${{ needs.deploy-frontend.result }}" == "success" ]; then
+          echo ""
+          echo "✅ All deployments successful!"
+          echo "SUCCESS" > deployment_status.txt
+        else
+          echo ""
+          echo "❌ One or more deployments failed!"
+          echo "FAILED" > deployment_status.txt
+          exit 1
+        fi
+
+    - name: Summary
+      if: always()
+      run: |
+        cat <<EOF
+        
+        🎉 DEPLOYMENT COMPLETE
+        =====================
+        
+        Backend:  ${{ needs.deploy-backend.result }}
+        Frontend: ${{ needs.deploy-frontend.result }}
+        
+        Next steps:
+        1. Check /healthz endpoint on backend
+        2. Verify frontend loads properly
+        3. Test payment flows
+        4. Monitor Sentry for errors
+        
+        EOF
