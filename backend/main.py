@@ -122,11 +122,17 @@ async def health_check():
     
     # Check database connection
     try:
-        response = supabase_client.table('users').select('count').limit(1).execute()
-        services_status["database"] = {
-            "status": "operational",
-            "message": "Connected to Supabase"
-        }
+        if supabase_client:
+            response = supabase_client.table('users').select('count').limit(1).execute()
+            services_status["database"] = {
+                "status": "operational",
+                "message": "Connected to Supabase"
+            }
+        else:
+            services_status["database"] = {
+                "status": "not_configured",
+                "message": "Supabase credentials not configured"
+            }
     except Exception as e:
         logger.error(f"Database health check failed: {e}")
         services_status["database"] = {
@@ -151,6 +157,20 @@ async def metrics():
     Prometheus-compatible metrics endpoint
     """
     try:
+        if not supabase_client:
+            # Return default metrics if database not configured
+            return JSONResponse(content={
+                "tasks_total": 0,
+                "tasks_pending": 0,
+                "tasks_in_progress": 0,
+                "tasks_completed": 0,
+                "tasks_failed": 0,
+                "payments_total": 0,
+                "revenue_total": 0,
+                "scheduler_running": task_scheduler.running,
+                "note": "Supabase not configured"
+            })
+        
         # Get task statistics
         tasks_response = supabase_client.table('ai_tasks').select('status').execute()
         tasks = tasks_response.data or []
