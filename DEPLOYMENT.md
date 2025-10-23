@@ -2,7 +2,67 @@
 
 This guide covers deploying AetherCrown98 to various platforms.
 
-## Vercel (Recommended)
+## Full Stack Deployment
+
+AetherCrown98 consists of two parts:
+- **Frontend**: Next.js application (deploy to Vercel)
+- **Backend**: FastAPI application (deploy to Render)
+
+## Backend Deployment (Render)
+
+### Prerequisites
+- GitHub repository with backend code
+- Render account ([render.com](https://render.com))
+- Environment variables configured
+
+### Deploy to Render
+
+1. **Connect Repository**
+   - Log in to Render
+   - Click "New +" and select "Web Service"
+   - Connect your GitHub repository
+   - Select the repository branch (main)
+
+2. **Configure Service**
+   - Name: `aethercrown98-backend`
+   - Region: Choose closest to your users
+   - Branch: `main`
+   - Root Directory: `backend`
+   - Runtime: `Python 3.11`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+
+3. **Environment Variables**
+   Add these in Render dashboard:
+   ```
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_key
+   OPENAI_API_KEY=your_openai_key
+   PAYPAL_CLIENT_ID=your_paypal_client_id
+   PAYPAL_CLIENT_SECRET=your_paypal_secret
+   NODE_ENV=production
+   LOG_LEVEL=INFO
+   LOG_FORMAT=json
+   ```
+
+4. **Health Check**
+   - Path: `/healthz`
+   - This ensures Render monitors your service
+
+5. **Deploy**
+   - Click "Create Web Service"
+   - Render will build and deploy automatically
+   - Note your service URL: `https://aethercrown98-backend.onrender.com`
+
+### Using render.yaml (Alternative)
+
+The `backend/render.yaml` file can automate deployment:
+
+1. Push `render.yaml` to your repository
+2. In Render dashboard, click "New" → "Blueprint"
+3. Connect repository and Render will auto-configure
+
+## Frontend Deployment (Vercel)
 
 Vercel is the easiest way to deploy Next.js applications.
 
@@ -16,7 +76,14 @@ Vercel is the easiest way to deploy Next.js applications.
    - Framework Preset: Next.js
    - Build Command: `npm run build`
    - Output Directory: `.next`
-6. Click "Deploy"
+6. **Add Environment Variables**:
+   ```
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_key
+   NEXT_PUBLIC_API_URL=https://aethercrown98-backend.onrender.com
+   ```
+7. Click "Deploy"
+8. Your site will be live at: `https://aethercrown98.vercel.app`
 
 ### Deploy via CLI
 

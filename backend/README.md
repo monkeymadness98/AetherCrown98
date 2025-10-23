@@ -45,30 +45,199 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 ### Health & Monitoring
 
-- `GET /` - API info
-- `GET /healthz` - Health check with service status
-- `GET /metrics` - Prometheus-compatible metrics
+#### `GET /`
+Returns API information and status.
+
+**Response:**
+```json
+{
+  "service": "AetherCrown98 Backend API",
+  "version": "1.0.0",
+  "status": "operational",
+  "docs": "/docs"
+}
+```
+
+#### `GET /healthz`
+Health check endpoint with detailed service status.
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2025-10-23T12:00:00Z",
+  "version": "1.0.0",
+  "services": {
+    "api": {"status": "operational", "message": "API is running"},
+    "database": {"status": "operational", "message": "Connected to Supabase"},
+    "scheduler": {"status": "operational"}
+  },
+  "uptime_seconds": 0.123
+}
+```
+
+#### `GET /metrics`
+Prometheus-compatible metrics for monitoring.
+
+**Response:**
+```json
+{
+  "tasks_total": 150,
+  "tasks_pending": 5,
+  "tasks_completed": 140,
+  "tasks_failed": 5,
+  "payments_total": 50,
+  "revenue_total": 12450.00,
+  "scheduler_running": true
+}
+```
 
 ### AI Agents
 
-- `POST /ai_agent` - Delegate task to AI agent
-  - Agent types: `marketing`, `analytics`, `finance`, `reports`
-  - Actions: Various based on agent type
+#### `POST /ai_agent`
+Delegate a task to an AI agent for processing.
+
+**Request Body:**
+```json
+{
+  "agent_type": "marketing",
+  "action": "generate_content",
+  "parameters": {
+    "content_type": "social_media",
+    "topic": "business automation"
+  }
+}
+```
+
+**Agent Types:**
+- `marketing`: Content generation, campaign analysis
+- `analytics`: Data analysis, insights generation
+- `finance`: Financial analysis, projections
+- `reports`: Comprehensive business reports
+
+**Response:**
+```json
+{
+  "success": true,
+  "task_id": "uuid",
+  "agent_type": "marketing",
+  "action": "generate_content",
+  "status": "queued",
+  "message": "AI agent task queued for execution"
+}
+```
 
 ### Tasks
 
-- `POST /tasks/assign` - Assign new task to AI clone
-- `GET /tasks/status/{task_id}` - Get task status
+#### `POST /tasks/assign`
+Assign a new task to an AI clone.
+
+**Request Body:**
+```json
+{
+  "clone_id": "uuid",
+  "task_name": "analyze_sales_data",
+  "task_input": {
+    "dataset": "Q4_2024_sales.csv",
+    "metrics": ["revenue", "growth"]
+  },
+  "priority": "high"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "task_id": "uuid",
+  "status": "pending",
+  "message": "Task assigned successfully"
+}
+```
+
+#### `GET /tasks/status/{task_id}`
+Get the current status and output of a task.
+
+**Response:**
+```json
+{
+  "success": true,
+  "task": {
+    "id": "uuid",
+    "task_name": "analyze_sales_data",
+    "status": "completed",
+    "priority": "high",
+    "created_at": "2025-10-23T10:00:00Z",
+    "completed_at": "2025-10-23T10:05:00Z",
+    "task_output": {
+      "result": "success",
+      "insights": ["Revenue up 23%", "Top product: AI Suite"]
+    }
+  }
+}
+```
 
 ### Payments
 
-- `POST /payments/create` - Create payment order
-- `POST /payments/webhook` - Payment provider webhook handler
+#### `POST /payments/create`
+Create a new payment order.
+
+**Request Body:**
+```json
+{
+  "amount": 299.00,
+  "currency": "USD",
+  "description": "Professional Plan - Monthly",
+  "user_id": "optional_user_id"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "order_id": "ORDER_20251023_120000_29900",
+  "amount": 299.00,
+  "currency": "USD",
+  "status": "created",
+  "payment_method": "paypal",
+  "sandbox_mode": true
+}
+```
+
+#### `POST /payments/webhook`
+Webhook endpoint for payment provider notifications.
+
+**Request Body:** (varies by provider)
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Webhook processed"
+}
+```
 
 ### Reports
 
-- `POST /reports/generate` - Generate AI-powered report
-  - Report types: `daily_summary`, `weekly_report`, `monthly_analysis`
+#### `POST /reports/generate`
+Generate an AI-powered business report.
+
+**Query Parameters:**
+- `report_type`: Type of report (default: "daily_summary")
+  - `daily_summary`: Daily business summary
+  - `weekly_report`: Weekly performance report
+  - `monthly_analysis`: Monthly comprehensive analysis
+
+**Response:**
+```json
+{
+  "success": true,
+  "report_type": "daily_summary",
+  "status": "generating",
+  "message": "daily_summary report generation started"
+}
+```
 
 ## AI Agents
 
