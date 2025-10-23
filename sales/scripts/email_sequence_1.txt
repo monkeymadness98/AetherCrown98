@@ -1,0 +1,206 @@
+COLD EMAIL SEQUENCE FOR AETHERCROWN98
+======================================
+
+TARGET: B2B decision-makers (CTOs, VPs of Operations, Business Owners)
+GOAL: Book a discovery call or demo
+SEQUENCE: 3 emails over 7 days
+
+
+EMAIL 1: Initial Outreach (Day 1)
+----------------------------------
+
+Subject: Quick question about [Company Name]'s operations
+
+Hi {{FirstName}},
+
+I noticed [Company Name] is [specific observation about their business - recent growth, hiring, product launch, etc.].
+
+As you scale, are manual processes becoming a bottleneck? I'm seeing this with similar companies in [industry].
+
+We help businesses like yours eliminate up to 70% of repetitive tasks through AI-powered automation.
+
+Worth a 15-minute conversation?
+
+Best,
+[Your Name]
+AetherCrown98
+
+P.S. - Not sure if you're the right person to talk to about workflow automation. If not, who should I reach out to?
+
+
+EMAIL 2: Value-Add Follow-Up (Day 3)
+-------------------------------------
+
+Subject: Re: Quick question about [Company Name]'s operations
+
+Hi {{FirstName}},
+
+I know you're busy, so I wanted to share something useful whether we chat or not.
+
+I put together a quick ROI calculator that shows how much time/money you could save by automating just 3 common business processes:
+
+[Link to ROI Calculator]
+
+For reference, companies in [industry] typically save:
+• 15-20 hours per week on administrative tasks
+• $3-5K monthly on operational costs
+• 40% reduction in errors
+
+Takes 2 minutes to see your potential savings.
+
+Interested in discussing what this could look like for [Company Name]?
+
+Reply with "DEMO" and I'll send you times for next week.
+
+Cheers,
+[Your Name]
+
+
+EMAIL 3: Breakup Email (Day 7)
+-------------------------------
+
+Subject: Should I close your file?
+
+Hi {{FirstName}},
+
+I haven't heard back, so I'm guessing this isn't a priority right now.
+
+Before I close your file, I wanted to ask:
+
+Is it...
+A) Bad timing?
+B) Already have a solution?
+C) Not interested?
+D) Should be talking to someone else?
+
+Just reply with a letter and I'll know where things stand.
+
+If I don't hear back, I won't bother you again.
+
+Best,
+[Your Name]
+
+P.S. - If timing is the issue, when should I circle back?
+
+
+ALTERNATE EMAIL 1: Post-Webinar/Event Follow-Up
+------------------------------------------------
+
+Subject: Thanks for attending [Event Name]
+
+Hi {{FirstName}},
+
+Thanks for joining our webinar on [topic]. Hope you found it valuable!
+
+As promised, here are the resources:
+• Slides: [Link]
+• Recording: [Link]
+• Automation checklist: [Link]
+
+You mentioned [pain point they brought up]. I'd love to show you how [Company Name] handled the exact same issue with AetherCrown98.
+
+Free for a quick call this week?
+
+Best,
+[Your Name]
+
+
+ALTERNATE EMAIL 2: Competitor User Outreach
+--------------------------------------------
+
+Subject: [Competitor] user? Quick question
+
+Hi {{FirstName}},
+
+I noticed [Company Name] uses [Competitor]. How's that working for you?
+
+We're seeing a lot of [Competitor] users switch to AetherCrown98 because:
+
+1. 40% lower cost
+2. Better AI automation
+3. Faster implementation
+4. More flexible pricing
+
+Would a side-by-side comparison be helpful?
+
+[Your Name]
+AetherCrown98
+
+P.S. - We offer free migration support if you decide to switch.
+
+
+ALTERNATE EMAIL 3: Referral Request
+------------------------------------
+
+Subject: Quick favor?
+
+Hi {{FirstName}},
+
+Thanks again for [previous interaction - trial, call, etc.].
+
+I know [Company Name] isn't looking to buy right now, but quick question:
+
+Do you know anyone in your network who might benefit from AI-powered business automation?
+
+We're specifically looking to help:
+• Growing companies (50-500 employees)
+• Operations/IT leaders
+• Anyone drowning in manual processes
+
+If you can think of anyone, I'd appreciate an intro. Happy to share 1 month free with anyone you refer!
+
+Thanks,
+[Your Name]
+
+
+TIPS FOR PERSONALIZATION:
+--------------------------
+
+1. Research each prospect:
+   - Recent LinkedIn posts
+   - Company news
+   - Funding rounds
+   - Job postings
+   - Industry trends
+
+2. Mention specifics:
+   - Their company's growth
+   - Recent challenges
+   - Competitors' moves
+   - Industry changes
+
+3. Keep it short:
+   - 50-100 words max
+   - One clear CTA
+   - Easy to read on mobile
+
+4. Test subject lines:
+   - Personal: "Quick question, {{FirstName}}"
+   - Value: "Save 15 hours this week"
+   - Curiosity: "This might interest you"
+   - Direct: "Demo request for {{Company}}"
+
+5. Follow-up cadence:
+   - Day 1: Initial email
+   - Day 3: Value-add follow-up
+   - Day 7: Breakup email
+   - Day 21: Re-engagement (if no response)
+
+
+METRICS TO TRACK:
+-----------------
+
+- Open rate: Target > 40%
+- Reply rate: Target > 5%
+- Meeting booked: Target > 2%
+- Cold email to customer: Target > 0.5%
+
+
+LEGAL COMPLIANCE:
+-----------------
+
+- Include opt-out option in every email
+- Respect opt-outs immediately
+- Follow CAN-SPAM and GDPR guidelines
+- Use business email addresses only
+- Keep records of consent/interactions

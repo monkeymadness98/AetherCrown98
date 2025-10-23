@@ -1,0 +1,388 @@
+FOLLOW-UP SCRIPTS FOR AETHERCROWN98
+====================================
+
+POST-DEMO FOLLOW-UP
+-------------------
+
+**Immediate Follow-Up (Same Day)**
+
+Subject: Thanks for the demo, {{FirstName}}!
+
+Hi {{FirstName}},
+
+Thanks for taking the time today! It was great learning about [Company Name]'s challenges with [specific pain point discussed].
+
+As discussed, here's what we covered:
+✅ How AetherCrown98 can help with [problem 1]
+✅ Integration with your existing [tool/system]
+✅ Expected ROI: [specific numbers discussed]
+
+Next steps:
+1. Review the proposal attached
+2. Share with your team if needed
+3. Let's schedule a follow-up call for [suggested date]
+
+Any questions in the meantime? Just reply to this email.
+
+Looking forward to working together!
+
+Best,
+[Your Name]
+
+Attachments:
+- Custom proposal
+- Case study (similar company)
+- Implementation timeline
+
+
+**Follow-Up Day 2**
+
+Subject: One question about [Company Name]
+
+Hi {{FirstName}},
+
+Quick question - did the proposal make sense?
+
+I wanted to highlight one thing we discussed: by automating [specific process], you could save approximately [time/money] per month.
+
+That's [annualized savings] per year!
+
+Are there any concerns I can address?
+
+Best,
+[Your Name]
+
+
+**Follow-Up Day 5**
+
+Subject: Resources for your team
+
+Hi {{FirstName}},
+
+Thought you might find these helpful as you evaluate:
+
+📊 ROI Calculator: [link]
+📝 Case Study: How [Similar Company] achieved 3x ROI in 6 months
+🎥 Customer testimonial video: [link]
+
+Also happy to do a separate session with your team if that helps.
+
+When can we move forward?
+
+[Your Name]
+
+
+POST-TRIAL FOLLOW-UP
+--------------------
+
+**Day 3 of Trial**
+
+Subject: How's your trial going?
+
+Hi {{FirstName}},
+
+You're 3 days into your AetherCrown98 trial! 🎉
+
+Have you had a chance to:
+✅ Connect your first integration
+✅ Set up an automation workflow
+✅ Invite team members
+
+Need help getting started? I'm here to help!
+
+Would a 15-minute walkthrough be useful?
+
+Best,
+[Your Name]
+
+
+**Day 7 of Trial**
+
+Subject: Halfway through your trial
+
+Hi {{FirstName}},
+
+You're halfway through your 14-day trial!
+
+Quick check-in:
+1. What's working well?
+2. Any roadblocks?
+3. Questions about features?
+
+Fun fact: Users who activate [specific feature] in the first week are 3x more likely to become customers.
+
+Want to schedule a call to maximize your trial?
+
+[Your Name]
+
+
+**Day 12 of Trial**
+
+Subject: 2 days left in your trial
+
+Hi {{FirstName}},
+
+Your trial ends in 2 days!
+
+Based on your usage, I see you've:
+✅ [Activity 1]
+✅ [Activity 2]
+❓ Not yet tried: [Important feature]
+
+I don't want you to miss out on [feature]. It's perfect for [their use case].
+
+Quick 10-minute call to show you?
+
+Also, here's a special offer if you upgrade before your trial ends:
+🎁 [Discount/bonus/incentive]
+
+Let me know!
+
+[Your Name]
+
+
+**Day 14 (Trial Ends)**
+
+Subject: Your trial ends today
+
+Hi {{FirstName}},
+
+Your AetherCrown98 trial ends today.
+
+I hope you found value in:
+• [Feature they used]
+• [Another feature]
+• [Results they achieved]
+
+Ready to continue? Here's what happens next:
+
+Option 1: Upgrade to Pro ($29/month)
+Option 2: Continue with Free plan (limited features)
+Option 3: Talk to me about Enterprise options
+
+Which makes sense for [Company Name]?
+
+I'm around all day if you have questions!
+
+Best,
+[Your Name]
+
+
+POST-TRIAL ENDED (NO CONVERSION)
+---------------------------------
+
+**Day 2 After Trial**
+
+Subject: We'll miss you
+
+Hi {{FirstName}},
+
+I noticed your trial ended. Sorry we couldn't help with [their use case]!
+
+Quick question: What held you back?
+A) Price
+B) Features
+C) Timing
+D) Complexity
+E) Something else?
+
+Your feedback helps us improve. Plus, I might be able to solve the issue!
+
+[Your Name]
+
+
+**1 Month After Trial**
+
+Subject: Things change?
+
+Hi {{FirstName}},
+
+A month ago you tried AetherCrown98. Timing wasn't right then.
+
+Has anything changed?
+
+Since you last looked, we've added:
+• [New feature relevant to them]
+• [Another update]
+• [Integration they might need]
+
+Worth another look?
+
+[Your Name]
+
+
+DEAL STALLED FOLLOW-UP
+-----------------------
+
+**Initial Stall Check-In**
+
+Subject: Checking in on our proposal
+
+Hi {{FirstName}},
+
+Following up on the proposal I sent [timeframe] ago.
+
+Where are you in the decision process?
+
+A) Need more information
+B) Need internal approval
+C) Budget/timing issues
+D) Comparing with competitors
+E) Other concerns
+
+Let me know how I can help move this forward!
+
+[Your Name]
+
+
+**30 Days Stalled**
+
+Subject: Can I help?
+
+Hi {{FirstName}},
+
+It's been a month since we last connected. I imagine things got busy!
+
+Are you still interested in solving [their pain point]?
+
+If yes: What's blocking progress?
+If no: Can you tell me why? (Helps me improve!)
+
+Either way, I'd appreciate 5 minutes of your time.
+
+[Your Name]
+
+
+**60 Days Stalled - Breakup**
+
+Subject: Closing your file
+
+Hi {{FirstName}},
+
+Haven't heard from you in 2 months, so I'm going to assume this isn't a priority right now.
+
+I'm closing your file, but want to leave the door open:
+
+If circumstances change and you want to revisit AetherCrown98, just reply "REOPEN" and I'll jump right back in.
+
+Otherwise, best of luck with [Company Name]!
+
+[Your Name]
+
+
+PRICING OBJECTION FOLLOW-UP
+----------------------------
+
+Subject: About the price...
+
+Hi {{FirstName}},
+
+You mentioned price was a concern. I totally understand.
+
+Let's break it down:
+
+Current manual process costs:
+• Staff time: [calculated hours × hourly rate]
+• Error correction: [estimated cost]
+• Missed opportunities: [estimated]
+
+Total: [monthly cost]
+
+AetherCrown98: $29/month
+
+ROI: [calculated savings] per month
+
+Plus, I can offer:
+1. Annual plan (save 20%)
+2. Startup discount (if applicable)
+3. Extended trial
+4. Flexible payment terms
+
+Which helps most?
+
+[Your Name]
+
+
+COMPETITOR COMPARISON FOLLOW-UP
+--------------------------------
+
+Subject: AetherCrown98 vs [Competitor]
+
+Hi {{FirstName}},
+
+You mentioned you're also looking at [Competitor]. Smart to compare!
+
+Here's an honest comparison:
+
+[Competitor] is better if:
+• [Scenario where competitor wins]
+• [Another scenario]
+
+AetherCrown98 is better if:
+• [Scenario where we win]
+• [Another scenario]
+• [Another scenario]
+
+Based on what you told me about [Company Name], I believe AetherCrown98 is a better fit because [reason].
+
+Want to discuss the comparison in detail?
+
+[Your Name]
+
+
+REFERRAL REQUEST FOLLOW-UP
+---------------------------
+
+Subject: Quick favor - can you help?
+
+Hi {{FirstName}},
+
+I'm looking to help 3 more companies like [Company Name] this quarter.
+
+Do you know anyone who:
+• Is struggling with manual processes
+• Wants to scale operations
+• Could benefit from AI automation
+
+Your referral would mean a lot!
+
+For anyone you refer:
+- You get: [referral bonus/discount]
+- They get: [special offer]
+
+Just reply with their name and email, and I'll take it from there.
+
+Thanks!
+[Your Name]
+
+
+BEST PRACTICES:
+---------------
+
+1. **Timing**
+   - Best days: Tuesday-Thursday
+   - Best times: 8-10 AM or 4-6 PM (local time)
+   - Avoid: Mondays before 10 AM, Fridays after 3 PM
+
+2. **Frequency**
+   - Active deal: Every 3-5 days
+   - Stalled deal: Weekly for 4 weeks, then monthly
+   - Post-trial: Daily during last 3 days, then weekly
+
+3. **Tone**
+   - Be helpful, not pushy
+   - Ask questions, don't just sell
+   - Provide value in every email
+   - Make it easy to respond
+
+4. **CTAs**
+   - One clear call-to-action per email
+   - Make it easy (reply A/B/C)
+   - Suggest specific times
+   - Remove friction
+
+5. **Tracking**
+   - Log all follow-ups in CRM
+   - Note which emails get responses
+   - A/B test subject lines
+   - Track time-to-close
