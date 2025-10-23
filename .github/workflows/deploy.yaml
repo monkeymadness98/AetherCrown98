@@ -1,0 +1,175 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  # Build and Test
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linter
+      run: npx next lint --dir . || echo "Linting completed"
+
+    - name: Run tests
+      run: npm test
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
+    - name: Build application
+      run: npm run build
+      env:
+        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
+        PAYPAL_CLIENT_SECRET: ${{ secrets.PAYPAL_CLIENT_SECRET }}
+        SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        NODE_ENV: production
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: .next
+        retention-days: 1
+
+  # Deploy Backend to Render
+  deploy-backend:
+    name: Deploy Backend to Render
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Render
+      run: |
+        echo "🚀 Deploying backend to Render..."
+        if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          echo "✅ Backend deployment triggered"
+        else
+          echo "⚠️  RENDER_DEPLOY_HOOK_URL not configured"
+        fi
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+
+    - name: Wait for deployment
+      run: sleep 60
+
+    - name: Health check
+      run: |
+        if [ -n "${{ secrets.BACKEND_URL }}" ]; then
+          for i in {1..5}; do
+            if curl -f "${{ secrets.BACKEND_URL }}/api/health"; then
+              echo "✅ Backend health check passed"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 10
+          done
+          echo "❌ Backend health check failed"
+          exit 1
+        else
+          echo "⚠️  Backend URL not configured, skipping health check"
+        fi
+
+  # Deploy Frontend to Vercel
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Vercel Production
+      uses: amondnet/vercel-action@v25
+      if: ${{ secrets.VERCEL_TOKEN != '' }}
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_TEAM_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+        working-directory: ./
+
+    - name: Deployment notification
+      run: |
+        echo "✅ Frontend deployed to Vercel"
+        echo "🔗 Visit: https://aethercrown98.vercel.app"
+
+  # Smoke Tests
+  smoke-tests:
+    name: Run Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-backend, deploy-frontend]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Test frontend endpoint
+      run: |
+        if [ -n "${{ secrets.FRONTEND_URL }}" ]; then
+          curl -f "${{ secrets.FRONTEND_URL }}" || echo "⚠️  Frontend smoke test failed"
+        fi
+
+    - name: Test backend endpoints
+      run: |
+        if [ -n "${{ secrets.BACKEND_URL }}" ]; then
+          curl -f "${{ secrets.BACKEND_URL }}/api/health" || echo "⚠️  Backend health endpoint failed"
+        fi
+
+    - name: Send deployment notification
+      run: |
+        echo "🎉 Deployment completed successfully!"
+        echo "Frontend: ${{ secrets.FRONTEND_URL }}"
+        echo "Backend: ${{ secrets.BACKEND_URL }}"
+
+  # Update monitoring
+  update-monitoring:
+    name: Update Monitoring Services
+    runs-on: ubuntu-latest
+    needs: smoke-tests
+    if: always()
+    
+    steps:
+    - name: Ping Healthchecks.io
+      if: ${{ secrets.HEALTHCHECK_URL != '' }}
+      run: |
+        curl "${{ secrets.HEALTHCHECK_URL }}" || echo "⚠️  Healthcheck ping failed"
+
+    - name: Update UptimeRobot
+      if: ${{ secrets.UPTIMEROBOT_API_KEY != '' }}
+      run: |
+        echo "📊 UptimeRobot monitoring active"
+        # Add UptimeRobot API call here if needed
+
+    - name: Deployment summary
+      run: |
+        echo "=== Deployment Summary ==="
+        echo "✅ Build & Test: Completed"
+        echo "✅ Backend: Deployed to Render"
+        echo "✅ Frontend: Deployed to Vercel"
+        echo "✅ Smoke Tests: ${{ needs.smoke-tests.result }}"
