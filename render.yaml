@@ -1,4 +1,5 @@
 services:
+  # Python FastAPI Backend
   - type: web
     name: aethercrown98-backend
     env: python
@@ -20,3 +21,24 @@ services:
         sync: false
       - key: PAYPAL_SECRET
         sync: false
+
+  # Node.js AI Automation Service
+  - type: web
+    name: ai-automation-api
+    env: node
+    buildCommand: npm install
+    startCommand: npm run start:server
+    autoDeploy: true
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: 10000
+
