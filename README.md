@@ -22,11 +22,25 @@ A futuristic, high-end Next.js web application featuring a stunning **green and 
 - Feature cards with hover glow effects
 - Call-to-action buttons with green/gold styling
 
+#### Empire Command Console
+- Real-time KPI monitoring (Revenue, Tasks, Transactions, Uptime)
+- Live system status dashboard
+- AI-powered insights and recommendations
+- Supabase real-time subscriptions
+- Automatic metric refresh
+
 #### Dashboard
 - Real-time business metrics (Revenue, Transactions, Growth, Customers)
 - Green/gold revenue charts with animations
 - AI insights panel with border glow effects
 - Recent transactions table
+
+#### Subscriptions
+- Three-tier pricing plans (Starter, Professional, Enterprise)
+- Feature comparison
+- Integrated payment creation
+- FAQ section
+- Custom enterprise solutions
 
 #### Payments
 - Futuristic payment form with multiple payment methods
@@ -43,20 +57,44 @@ A futuristic, high-end Next.js web application featuring a stunning **green and 
 - AI-powered recommendations panel
 
 ### 🤖 AI Integration
+
+#### Frontend
 - AI-driven personalization throughout the UI
 - Real-time insights and recommendations
 - Predictive analytics display
 - Smart business suggestions
+- Real-time data synchronization
+
+#### Backend AI Agents
+- **Marketing Agent**: Content generation, campaign analysis
+- **Analytics Agent**: Data analysis, insight generation
+- **Finance Agent**: Financial analysis, revenue projections
+- **Reports Agent**: Comprehensive business reports
+- Scheduled daily summaries at 09:00 UTC
+- Background task processing with APScheduler
+- OpenAI GPT-4 integration (ready for API key)
 
 ## 🛠 Tech Stack
 
+### Frontend
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4 (with custom green/gold theme)
 - **UI**: Custom components with futuristic design
+- **Database**: Supabase (PostgreSQL with real-time subscriptions)
 - **Fonts**: Inter, Montserrat (from Google Fonts)
 
+### Backend
+- **Framework**: FastAPI (Python)
+- **AI/ML**: OpenAI GPT-4 integration
+- **Task Queue**: APScheduler for background jobs
+- **Database**: Supabase Python SDK
+- **Payments**: PayPal and Stripe integration
+- **Logging**: Structured JSON logging
+
 ## 📦 Installation
+
+### Frontend Setup
 
 ```bash
 # Clone the repository
@@ -66,13 +104,39 @@ cd AetherCrown98
 # Install dependencies
 npm install
 
+# Configure environment variables
+# Create .env file with:
+# SUPABASE_URL=your_supabase_url
+# SUPABASE_KEY=your_supabase_key
+# NEXT_PUBLIC_API_URL=http://localhost:8000
+
 # Run development server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
+### Backend Setup
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+# Use the .env file in root directory or create backend/.env
+
+# Run FastAPI server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Open [http://localhost:8000/docs](http://localhost:8000/docs) to view the API documentation.
+
 ## 🚀 Build & Deploy
+
+### Frontend (Vercel)
 
 ```bash
 # Build for production
@@ -85,6 +149,30 @@ npm start
 npm run lint
 ```
 
+**Vercel Deployment:**
+1. Connect GitHub repository to Vercel
+2. Configure environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Backend (Render)
+
+```bash
+# Build Docker image
+cd backend
+docker build -t aethercrown98-backend .
+
+# Run container
+docker run -p 8000:8000 --env-file ../.env aethercrown98-backend
+```
+
+**Render Deployment:**
+1. Connect GitHub repository to Render
+2. Use `backend/render.yaml` for configuration
+3. Configure environment variables in Render dashboard
+4. Deploy automatically on push to main branch
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
 ## 🎯 Project Structure
 
 ```
@@ -92,13 +180,34 @@ AetherCrown98/
 ├── app/                      # Next.js app directory
 │   ├── page.tsx             # Homepage
 │   ├── layout.tsx           # Root layout
-│   ├── globals.css          # Global styles with custom classes
+│   ├── globals.css          # Global styles
 │   ├── dashboard/           # Dashboard page
+│   ├── empire/              # Empire Command Console
+│   ├── subscriptions/       # Subscription plans
 │   ├── payments/            # Payments page
-│   └── analytics/           # Analytics page
+│   ├── analytics/           # Analytics page
+│   └── api/                 # Next.js API routes
+├── backend/                 # FastAPI backend
+│   ├── main.py              # FastAPI application
+│   ├── config.py            # Configuration settings
+│   ├── database.py          # Supabase client
+│   ├── agents/              # AI agent workers
+│   │   └── worker.py        # Background task workers
+│   ├── services/            # Business logic services
+│   │   ├── payment_service.py
+│   │   └── report_service.py
+│   ├── utils/               # Utility functions
+│   │   └── logging_config.py
+│   ├── requirements.txt     # Python dependencies
+│   ├── Dockerfile           # Container configuration
+│   └── render.yaml          # Render deployment config
 ├── components/              # Reusable components
 │   ├── Header.tsx           # Navigation header
 │   └── Footer.tsx           # Footer component
+├── lib/                     # Shared utilities
+│   ├── supabase.ts          # Supabase client
+│   ├── api.ts               # API client
+│   └── toast.tsx            # Toast notification system
 ├── public/                  # Static assets
 ├── tailwind.config.ts       # Tailwind configuration
 ├── next.config.mjs          # Next.js configuration
