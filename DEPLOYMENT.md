@@ -2,7 +2,81 @@
 
 This guide covers deploying AetherCrown98 to various platforms.
 
-## Vercel (Recommended)
+## Backend API Deployment (Render)
+
+The AetherCrown98 backend is a Python FastAPI application located in the `/backend` directory.
+
+### Deploy to Render
+
+Render automatically detects the `render.yaml` configuration file for deployment.
+
+#### Automatic Deployment
+
+1. Push your code to GitHub
+2. Go to [render.com](https://render.com) and sign in
+3. Click "New +" → "Web Service"
+4. Connect your GitHub repository (monkeymadness98/AetherCrown98)
+5. Render will auto-detect the `render.yaml` file
+6. Configure environment variables in Render dashboard:
+   - `SUPABASE_URL` - Your Supabase project URL
+   - `SUPABASE_KEY` - Your Supabase API key
+   - `OPENAI_API_KEY` - Your OpenAI API key
+   - `PAYPAL_CLIENT_ID` - Your PayPal client ID
+   - `PAYPAL_SECRET` - Your PayPal secret key
+7. Click "Create Web Service"
+
+#### Manual Configuration (Alternative)
+
+If you prefer manual setup instead of using `render.yaml`:
+
+1. Create a new Web Service on Render
+2. Connect your repository
+3. Configure:
+   - **Name**: aethercrown98-backend
+   - **Environment**: Python 3
+   - **Build Command**: `pip install -r backend/requirements.txt`
+   - **Start Command**: `gunicorn backend.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120`
+   - **Plan**: Free
+4. Add environment variables (same as above)
+
+#### Docker Deployment on Render
+
+Alternatively, deploy using Docker:
+
+1. In Render, select "Deploy from Dockerfile"
+2. Render will use the `Dockerfile` in the repository root
+3. Configure environment variables
+4. Deploy
+
+### Backend API Endpoints
+
+Once deployed, your backend will be available at:
+`https://aethercrown98-backend.onrender.com`
+
+Available endpoints:
+- `GET /` - API info
+- `GET /health` - Health check
+- `GET /api/metrics` - Business metrics
+- `GET /api/insights` - AI insights
+- `GET /api/analytics` - Analytics data
+- `POST /api/payments/process` - Payment processing
+
+### Local Development
+
+```bash
+# Install dependencies
+pip install -r backend/requirements.txt
+
+# Run with uvicorn (development)
+uvicorn backend.main:app --reload
+
+# Run with gunicorn (production-like)
+gunicorn backend.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+```
+
+## Frontend Deployment
+
+### Vercel (Recommended)
 
 Vercel is the easiest way to deploy Next.js applications.
 
