@@ -3,7 +3,24 @@
 import { useState, useEffect } from 'react';
 
 export default function FinanceDashboard() {
-  const [financialData, setFinancialData] = useState({
+  interface Subscription {
+    name: string;
+    value: number;
+    revenue: number;
+  }
+
+  interface Transaction {
+    date: string;
+    amount: number;
+    type: string;
+  }
+
+  const [financialData, setFinancialData] = useState<{
+    totalRevenue: number;
+    subscriptions: Subscription[];
+    transactions: Transaction[];
+    loading: boolean;
+  }>({
     totalRevenue: 0,
     subscriptions: [],
     transactions: [],

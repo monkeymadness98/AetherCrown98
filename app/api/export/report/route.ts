@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     // Mock PDF generation (in production, call backend endpoint)
     const pdfContent = generateSimplePDFContent(data);
 
-    return new NextResponse(pdfContent, {
+    return new NextResponse(pdfContent.toString('binary'), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
