@@ -1,0 +1,39 @@
+# Core FastAPI dependencies
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+pydantic==2.9.2
+pydantic-settings==2.6.0
+
+# Database
+supabase==2.9.0
+postgrest==0.17.1
+
+# AI/ML
+openai==1.54.4
+
+# Task scheduling
+apscheduler==3.10.4
+
+# HTTP and async
+httpx==0.27.2
+aiohttp==3.10.10
+
+# Payment processing
+paypalrestsdk==1.13.1
+
+# Logging
+python-json-logger==2.0.7
+
+# Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.12
+
+# Environment
+python-dotenv==1.0.1
+
+# CORS
+fastapi-cors==0.0.6
+
+# Monitoring
+prometheus-client==0.21.0
