@@ -31,3 +31,29 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# logs
+/logs/*.log
+!/logs/deploy.log
+
+# backup files
+*.sql.gz
+secret_rotation_log.json
+
+# generated content
+/marketing/ai-content/output/
+/content/generated/
+
+# reports
+/reports/*.html
+/reports/*.pdf
+
+# temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
