@@ -36,27 +36,6 @@ export default function TasksPage() {
   });
 
   // Fetch tasks and clones
-  useEffect(() => {
-    fetchTasks();
-    fetchClones();
-
-    // Subscribe to real-time updates
-    const tasksSubscription = supabase
-      .channel('tasks-channel')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'ai_tasks' },
-        (payload) => {
-          console.log('Task updated:', payload);
-          fetchTasks();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      tasksSubscription.unsubscribe();
-    };
-  }, [selectedClone]);
-
   const fetchTasks = async () => {
     try {
       const url = selectedClone 
@@ -88,6 +67,28 @@ export default function TasksPage() {
       console.error('Error fetching clones:', error);
     }
   };
+
+  useEffect(() => {
+    fetchTasks();
+    fetchClones();
+
+    // Subscribe to real-time updates
+    const tasksSubscription = supabase
+      .channel('tasks-channel')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'ai_tasks' },
+        (payload) => {
+          console.log('Task updated:', payload);
+          fetchTasks();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      tasksSubscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClone]);
 
   const createTask = async () => {
     try {
