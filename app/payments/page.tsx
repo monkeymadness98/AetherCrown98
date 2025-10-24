@@ -37,7 +37,7 @@ export default function PaymentsPage() {
 
   useEffect(() => {
     // Fetch initial data - this is a common and valid pattern for data loading on mount
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial data fetch on component mount
     fetchPayments();
 
     // Subscribe to real-time updates

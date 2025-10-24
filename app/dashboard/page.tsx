@@ -17,12 +17,11 @@ export default function DashboardPage() {
     { id: 4, date: "2025-10-21", amount: "$650", status: "completed", customer: "Bob Johnson" },
   ]);
 
-  // Generate consistent random values for chart percentages
+  // Generate consistent deterministic values for chart percentages
   const chartData = useMemo(() => {
-    const seed = 42; // Use a seed for consistent values
     return ["Jan", "Feb", "Mar", "Apr", "May", "Jun"].map((month, index) => ({
       month,
-      percentage: 20 + (index * 15) + (index * 1.5), // Use deterministic calculation
+      percentage: 20 + (index * 15) + (index * 1.5), // Deterministic calculation based on index
       revenue: Math.round(1000 + index * 500)
     }));
   }, []);
